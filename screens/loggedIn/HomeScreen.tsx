@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { db } from "./../../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Image } from "@rneui/base";
+import StarRating from "../../components/rating";
 
 const Home = () => {
 
@@ -19,7 +20,6 @@ const Home = () => {
             const bookDataArray: any = [];
 
             querySnapshot.forEach((doc) => {
-                // Add each document's data to the array
                 bookDataArray.push({
                     id: doc.id,
                     ...doc.data()
@@ -48,14 +48,15 @@ const Home = () => {
                 data={data}
                 keyExtractor={(item) => item.id} // Specify a unique key for each item
                 renderItem={({ item }) => (
-                    <View style={styles.postView}>
-                        <View style={styles.postTitle}>
-                            <View style={styles.imageView} >
-                                <Image source={{ uri: item.imageLink }} />
-                                <Text>Name & Title: {item.author}</Text>
+                    <View style={styles.card}>
+                        <View style={styles.cardContent}>
+                            <Image source={{ uri: item.imageLink }} style={styles.cardImage} />
+                            <View style={styles.textContainer}>
+                                <Text style={styles.cardTitle}>{item.title}</Text>
+                                <Text>ListedBy: {item.listedBy}</Text>
+                                <Text>Condition: {item.condition}</Text>
+                                <StarRating rating={item.rating} />
                             </View>
-                            <View><Text>Options</Text></View>
-
                         </View>
                     </View>
                 )}
@@ -104,5 +105,44 @@ const styles = StyleSheet.create({
     imageView: {
         width: '50%',
         display: 'flex'
-    }
+    },
+    card: {
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        marginHorizontal: 4,
+        marginVertical: 6,
+        padding: 10,
+    },
+    cardContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    cardImage: {
+        width: 80,
+        height: 80,
+        borderRadius: 4,
+    },
+    textContainer: {
+        marginLeft: 10,
+    },
+    cardTitle: {
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
+    ratingContainer: {
+        flexDirection: 'row',
+    },
+    star: {
+        fontSize: 24,
+        color: 'gold',
+        marginRight: 2,
+    },
+    filledStar: {
+        color: 'gold',
+    },
 });
