@@ -92,20 +92,6 @@ const styles = StyleSheet.create({
     mainPostView: {
         width: '100%',
     },
-    postView: {
-        width: '100%'
-    },
-    postTitle: {
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between',
-        backgroundColor: 'gray',
-        flexDirection: 'row'
-    },
-    imageView: {
-        width: '50%',
-        display: 'flex'
-    },
     card: {
         backgroundColor: '#fff',
         borderRadius: 8,
