@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { db } from "./../../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Image } from "@rneui/base";
 import StarRating from "../../components/rating";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
-const Home = () => {
-
+const Home = (props: any) => {
+    const { navigation } = props;
     const [searchInput, setSearchInput] = useState('');
     const [data, setData] = useState<any>([]);
 
@@ -55,9 +56,18 @@ const Home = () => {
                                 <Text style={styles.cardTitle}>{item.title}</Text>
                                 <Text>ListedBy: {item.listedBy}</Text>
                                 <Text>Condition: {item.condition}</Text>
+                                <Text>ISBN: {item.isbn}</Text>
                                 <StarRating rating={item.rating} />
                             </View>
                         </View>
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.navigate('Details'); // Navigate to DetailsScreen with book data   { book: item.description }
+                            }}
+                            style={styles.arrowContainer}
+                        >
+                            <FontAwesomeIcon name='picture-o' size={30} color="#841777" />
+                        </TouchableOpacity>
                     </View>
                 )}
             />
@@ -103,6 +113,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 4,
         marginVertical: 6,
         padding: 10,
+        flexDirection: 'row'
     },
     cardContent: {
         flexDirection: 'row',
@@ -130,5 +141,8 @@ const styles = StyleSheet.create({
     },
     filledStar: {
         color: 'gold',
+    },
+    arrowContainer: {
+        padding: 10,
     },
 });

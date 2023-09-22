@@ -9,7 +9,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 //Screens
 import { LoginScreen, RegistrationScreen } from './screens';
-import { HomeScreen, SettingsScreen, LibraryScreen, ExchangeScreen } from './screens/loggedIn';
+import { HomeScreen, SettingsScreen, LibraryScreen, ExchangeScreen, DetailsScreen } from './screens/loggedIn';
 
 function App(): JSX.Element {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -32,16 +32,25 @@ function App(): JSX.Element {
 
   //navigators
   const Stack = createNativeStackNavigator();
+  const HomeStack = createNativeStackNavigator();
   const Tab = createMaterialBottomTabNavigator();
 
-  const renderAuthScreens = () => {
+  const HomeStackScreens = () => {
+    return (<HomeStack.Navigator>
+      <HomeStack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
+      <HomeStack.Screen name="Details" component={DetailsScreen} options={{ headerShown: false }} />
+    </HomeStack.Navigator>);
+
+  }
+
+  const AuthScreens = () => {
     return (<Stack.Navigator>
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Register" component={RegistrationScreen} options={{ headerShown: false }} />
     </Stack.Navigator>);
   }
 
-  const renderTabNavigator = () => {
+  const TabNavigatorScreens = () => {
     return (<Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) => {
@@ -68,7 +77,7 @@ function App(): JSX.Element {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name='Home' component={HomeScreen} />
+      <Tab.Screen name='Home' component={HomeStackScreens} />
       <Tab.Screen name='Library' component={LibraryScreen} />
       <Tab.Screen name='Post' component={ExchangeScreen} />
       <Tab.Screen name='Settings' component={SettingsScreen} />
@@ -77,7 +86,7 @@ function App(): JSX.Element {
 
   return (
     <NavigationContainer>
-      {loggedIn ? renderTabNavigator() : renderAuthScreens()}
+      {loggedIn ? TabNavigatorScreens() : AuthScreens()}
     </NavigationContainer>
   );
 }
