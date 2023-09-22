@@ -4,7 +4,6 @@ import { db } from "./../../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Image } from "@rneui/base";
 import StarRating from "../../components/rating";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 const Home = (props: any) => {
     const { navigation } = props;
@@ -27,7 +26,6 @@ const Home = (props: any) => {
                 });
             });
 
-            // Set the data array in your state
             setData(bookDataArray);
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -47,28 +45,26 @@ const Home = (props: any) => {
         <View style={styles.mainPostView}>
             <FlatList
                 data={data}
-                keyExtractor={(item) => item.id} // Specify a unique key for each item
+                keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <View style={styles.card}>
-                        <View style={styles.cardContent}>
-                            <Image source={{ uri: item.imageLink }} style={styles.cardImage} />
-                            <View style={styles.textContainer}>
-                                <Text style={styles.cardTitle}>{item.title}</Text>
-                                <Text>ListedBy: {item.listedBy}</Text>
-                                <Text>Condition: {item.condition}</Text>
-                                <Text>ISBN: {item.isbn}</Text>
-                                <StarRating rating={item.rating} />
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('Details');
+                        }}
+                        style={styles.arrowContainer}>
+                        <View style={styles.card}>
+                            <View style={styles.cardContent}>
+                                <Image source={{ uri: item.imageLink }} style={styles.cardImage} />
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.cardTitle}>{item.title}</Text>
+                                    <Text>ListedBy: {item.listedBy}</Text>
+                                    <Text>Condition: {item.condition}</Text>
+                                    <Text>ISBN: {item.isbn}</Text>
+                                    <StarRating rating={item.rating} />
+                                </View>
                             </View>
                         </View>
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('Details'); // Navigate to DetailsScreen with book data   { book: item.description }
-                            }}
-                            style={styles.arrowContainer}
-                        >
-                            <FontAwesomeIcon name='picture-o' size={30} color="#841777" />
-                        </TouchableOpacity>
-                    </View>
+                    </TouchableOpacity>
                 )}
             />
         </View>

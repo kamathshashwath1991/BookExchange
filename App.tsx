@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 //Screens
 import { LoginScreen, RegistrationScreen } from './screens';
 import { HomeScreen, SettingsScreen, LibraryScreen, ExchangeScreen, DetailsScreen } from './screens/loggedIn';
