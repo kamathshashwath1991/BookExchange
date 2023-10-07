@@ -79,7 +79,15 @@ function App(): JSX.Element {
     >
       <Tab.Screen name='Home' component={HomeStackScreens} />
       <Tab.Screen name='Library' component={LibraryScreen} />
-      <Tab.Screen name='Post' component={ExchangeScreen} />
+      <Tab.Screen
+        name='Post'
+        component={ExchangeScreen}
+        listeners={({ navigation }) => ({
+          tabPress: () => {
+            if (navigation.isFocused()) console.log('FIRE CAMARA HERE!');
+          },
+        })}
+      />
       <Tab.Screen name='Settings' component={SettingsScreen} />
     </Tab.Navigator>);
   }
